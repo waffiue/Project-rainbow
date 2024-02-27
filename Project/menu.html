@@ -1,0 +1,115 @@
+<!DOCTYPE html> 
+<html lang="ru"> 
+<head> 
+    <meta charset="utf-8">
+    <title>Меню Радуга</title> 
+    <link rel="stylesheet" href="menu.css"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
+  
+</head> 
+<body> 
+    
+    <header> 
+        <h1>Меню</h1> 
+    </header> 
+    
+    <nav> 
+        <a href="index.html" class="menu-page">Главная</a> 
+        <a href="menu.html" class="menu-page">Меню</a> 
+        <a href="admin.html" class="menu-page">Администрирование</a> 
+    </nav> 
+    
+    <hr class="line"> 
+    
+    <main class="main"> 
+        
+        <h2 class="title">Сегодняшнее предложение</h2> 
+
+        <div id="menu"></div> 
+
+    </main> 
+          
+      <script> 
+
+      //Ф-я отображения меню на странице.
+       function displayMenu() { 
+        //Переменная menu получает значение пустого div с id= menu, очищается содержимое этого div.
+        var menu = document.getElementById('menu'); menu.innerHTML = ''; 
+        
+        var categories = ['Завтрак','Холодные закуски', 'Первые блюда', 'Вторые блюда', 'Напитки']; //Массив с 5 категориями блюд.
+        
+
+       //Для каждого элемента массива categories вызывается функция, которая принимает текущую категорию.
+        categories.forEach(category => {
+        
+        //Создаем название категории.
+        var categoryElement = document.createElement('h3');
+        categoryElement.classList.add('subtitle');
+        categoryElement.textContent = category;
+
+        //Создаем контейнер, где находятся карточки блюд.
+        var dishesContainer = document.createElement('div');
+        dishesContainer.classList.add('container');
+
+        //Получаем блюда из localStorage, если они там есть.
+        var dishes = localStorage.getItem(category) ? JSON.parse(localStorage.getItem(category)) : [];
+
+        
+        //Добавление элементов для отображения информации о блюде.
+        dishes.forEach(dish => {
+
+        //Элемент для карточки блюда, внутри которого контейнер для изображения, названия, описания и цены.
+        var dishElement = document.createElement('div'); 
+        dishElement.classList.add('dish');
+
+        var dishContainer = document.createElement('div'); 
+        dishContainer.classList.add('dish-container');
+
+        var imageElement = document.createElement('img'); //изображение
+        imageElement.classList.add('dish-image');
+        imageElement.setAttribute('src', dish.image);
+        dishContainer.appendChild(imageElement);
+
+        var name = document.createElement('span'); //название
+        name.classList.add('name');
+        name.textContent = dish.name;
+        dishContainer.appendChild(name);
+
+        var description = document.createElement('p'); //описание
+        description.classList.add('description');
+        description.textContent = dish.description;
+        dishContainer.appendChild(description);
+
+        var price = document.createElement('p'); //цена
+        price.classList.add('price');
+        price.textContent = "Цена: " + dish.price;
+        dishContainer.appendChild(price);
+       
+        //Добавляем контейнер с информацией о блюде в элемент карточки.
+        dishElement.appendChild(dishContainer);
+        
+        // Добавляем элемент карточки в контейнер, где находятся все карточки.
+        dishesContainer.appendChild(dishElement);
+    });
+
+      // Добавляем контейнер с карточками в элемент заголовка категории.
+    categoryElement.appendChild(dishesContainer);
+
+     // Добавляем элемент заголовка категории в меню.
+    menu.appendChild(categoryElement);
+});
+}
+
+displayMenu();
+    </script>
+
+    <footer> 
+        <h2>Контакты</h2> 
+        <p class="contacts">Наш телефон: 8-888-888-88-88</p> 
+        <p class="address">Улица Васильева, 15, Снежинск, Челябинская область</p> 
+    </footer> 
+
+</body> 
+</html>
